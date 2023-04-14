@@ -1,0 +1,39 @@
+//@version=4
+//@version=5
+strategy("89 MA", overlay = true)
+
+
+//compute the indicators
+
+
+//ema5= ema(close,1)
+smahigh= sma(high,89)
+smalow= sma(low,89)
+ent=sma(close,4)
+exit=sma(close,1)
+exit1=sma(close,20)
+//rsi= ta.rsi(close,14)
+
+
+//timestamp
+start =timestamp(2018,4,1,0,0)
+end =timestamp(2019,4,1,0,0)
+
+
+//plot the indicators
+plot(smalow,title="low89",color=color.blue,linewidth=2)
+plot(smahigh,title="high89",color=#4b15de,linewidth=2)
+plot(exit1,title="9ma",color=#988cb8,linewidth=2)
+
+
+//trading logic
+long=crossover(close,smahigh) and rsi(close,14)>=60 
+short=close<exit1
+
+
+//placing order
+//if rsi(close[1],14)>=60
+if(strategy.long)
+    strategy.entry("abcd",strategy.long,25,when=long)
+    strategy.close("abcd",when=short)
+
